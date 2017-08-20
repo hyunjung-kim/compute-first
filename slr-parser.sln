@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slr-parser", "slr-parser\slr-parser.vcxproj", "{AE304461-439A-40EB-95F6-BE1AE3628371}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slr-parser-tests", "slr-parser-tests\slr-parser-tests.vcxproj", "{01383B83-D2DF-4808-9585-89737B37B146}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{AE304461-439A-40EB-95F6-BE1AE3628371}.Release|x64.Build.0 = Release|x64
 		{AE304461-439A-40EB-95F6-BE1AE3628371}.Release|x86.ActiveCfg = Release|Win32
 		{AE304461-439A-40EB-95F6-BE1AE3628371}.Release|x86.Build.0 = Release|Win32
+		{01383B83-D2DF-4808-9585-89737B37B146}.Debug|x64.ActiveCfg = Debug|x64
+		{01383B83-D2DF-4808-9585-89737B37B146}.Debug|x64.Build.0 = Debug|x64
+		{01383B83-D2DF-4808-9585-89737B37B146}.Debug|x86.ActiveCfg = Debug|Win32
+		{01383B83-D2DF-4808-9585-89737B37B146}.Debug|x86.Build.0 = Debug|Win32
+		{01383B83-D2DF-4808-9585-89737B37B146}.Release|x64.ActiveCfg = Release|x64
+		{01383B83-D2DF-4808-9585-89737B37B146}.Release|x64.Build.0 = Release|x64
+		{01383B83-D2DF-4808-9585-89737B37B146}.Release|x86.ActiveCfg = Release|Win32
+		{01383B83-D2DF-4808-9585-89737B37B146}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
