@@ -4,7 +4,7 @@
 
 TEST(ParserToolTests, SimpleFirst)
 {
-	slrparser::ProductionRule p;
+	slrparser::ProductionRule_deprecated p;
 
 	p.AddRule("A", std::vector<std::string>{"aB", "B"});
 	p.AddRule("B", std::vector<std::string>{"bC", "C"});
@@ -12,9 +12,9 @@ TEST(ParserToolTests, SimpleFirst)
 
 	slrparser::ParserTools tools;
 
-	auto firstA = tools.First(p, "A");
-	auto firstB = tools.First(p, "B");
-	auto firstC = tools.First(p, "C");
+	auto firstA = tools.Compute_FIRST(p, "A");
+	auto firstB = tools.Compute_FIRST(p, "B");
+	auto firstC = tools.Compute_FIRST(p, "C");
 
 	ASSERT_EQ(firstA.size(), 3);
 	ASSERT_EQ(firstB.size(), 2);
@@ -64,6 +64,6 @@ TEST(ParserToolTests, SimpleRingSum)
 
 TEST(ParserToolsTests, FirstCanBeExpressedAsRingSums)
 {
-
+	EXPECT_TRUE(false);
 }
 
