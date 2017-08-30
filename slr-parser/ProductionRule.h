@@ -69,6 +69,23 @@ namespace slrparser
 			productionRules_.push_back(rule);
 		}
 
+		std::vector<ProductionRule> AllRules()
+		{
+			return productionRules_;
+		}
+
+		std::vector<std::string> FIRST(std::string v)
+		{
+			// TODO: implement
+			return {};
+		}
+
+		std::vector<std::string> RINGSUM(std::vector<std::string> lhs, std::vector<std::string> rhs)
+		{
+			// TODO: implement
+			return {};
+		}
+
 	private:
 		std::vector<std::string> findRuleImpl(const std::string & vn)
 		{
@@ -86,37 +103,6 @@ namespace slrparser
 
 	private:
 		std::vector<ProductionRule> productionRules_;
-	};
-
-
-
-
-
-	class ProductionRule_deprecated
-	{
-	public:
-		ProductionRule_deprecated() {};
-
-		ProductionRule_deprecated(const ProductionRule_deprecated &) = delete;
-		ProductionRule_deprecated & operator=(const ProductionRule_deprecated &) = delete;
-
-		void AddRule(const std::string & lhs, std::vector<std::string> & rhs);
-		size_t RuleCount();
-		std::vector<std::string> Vn(std::string);
-
-
-		std::vector<std::string> operator[](const std::string & V_N)
-		{
-			return rules_[V_N];
-		}
-
-		std::unordered_map<std::string, std::vector<std::string>> Raw()
-		{
-			return rules_;
-		}
-
-	private:
-		std::unordered_map<std::string, std::vector<std::string>> rules_;
 	};
 }
 

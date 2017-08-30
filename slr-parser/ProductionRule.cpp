@@ -11,18 +11,4 @@
 
 namespace slrparser
 {
-	void ProductionRule_deprecated::AddRule(const std::string & lhs, std::vector<std::string> & rhs)
-	{
-		rules_.emplace(lhs, rhs);
-	}
-
-	size_t ProductionRule_deprecated::RuleCount()
-	{
-		return rules_.size();
-	}
-
-	std::vector<std::string> ProductionRule_deprecated::Vn(std::string vn)
-	{
-		return rules_[vn];
-	}
 }
