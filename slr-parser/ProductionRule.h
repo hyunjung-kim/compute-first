@@ -11,7 +11,7 @@ namespace slrparser
 	{
 	public:
 		ProductionRule(std::string & vn, std::vector<std::string> vt)
-			: 
+			:
 			vn_(vn),
 			rhs_(std::move(vt)),
 			valid_(true)
@@ -32,11 +32,11 @@ namespace slrparser
 			return valid_;
 		}
 
-	private:		
+	private:
 		// lhs_        rhs_
 		// S     ->    aB | As
-		
-		std::string vn_;		
+
+		std::string vn_;
 		std::vector<std::string> rhs_;
 		bool valid_ = false;
 	};
@@ -48,7 +48,7 @@ namespace slrparser
 
 		ProductionRules(const ProductionRules &) = delete;
 		ProductionRules & operator=(const ProductionRules &) = delete;
-		
+
 		size_t RuleCount()
 		{
 			return productionRules_.size();
@@ -76,8 +76,40 @@ namespace slrparser
 
 		std::vector<std::string> FIRST(std::string v)
 		{
-			// TODO: implement
+			std::vector<std::string> ret;
+
+			// Step 1: if v is terminal then FIRST(v) = {v} if v belongs to terminal symbols
+			if (IsTerminal(v))
+			{
+				ret.push_back(v);
+				return ret;
+			}
+
+			// TODO: Step 2
+			// TODO: Step 3
+
 			return {};
+		}
+
+		bool IsTerminal(std::string v)
+		{
+			if (v.size() != 1)
+			{
+				throw std::runtime_error("Symbol size must be one");
+			}
+
+			if (v[0] >= 97 && v[0] <= 127) // a - z
+			{
+				return true;
+			}
+			else if (v[0] >= 65 && v[0] <= 90) // A - Z
+			{
+				return false;
+			}
+			else
+			{
+				throw std::runtime_error("Symbol must be a letter");
+			}
 		}
 
 		std::vector<std::string> RINGSUM(std::vector<std::string> lhs, std::vector<std::string> rhs)

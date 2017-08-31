@@ -62,6 +62,27 @@ TEST(ProductionRulesTests, SimpleRingSum)
 	ASSERT_THAT(rules.RINGSUM({ "a", "b", "#" }, { "c", "d", "#" }), ::testing::ContainerEq(std::vector<std::string>({ "a", "b", "c", "d", "#" })));
 }
 
+TEST(ProductionRulesTests, IsTerminalReturnsCorrectly)
+{
+	slrparser::ProductionRules rules;
+
+	for (int i = 'a'; i <= 'z'; ++i)
+	{
+		std::string s(1, i);
+		EXPECT_TRUE(rules.IsTerminal(s));
+	}
+
+	for (int i = 'A'; i <= 'Z'; ++i)
+	{
+		std::string s(1, i);
+		EXPECT_FALSE(rules.IsTerminal(s));
+	}
+
+	// TODO: consider a better to test non-letter
+	EXPECT_THROW(rules.IsTerminal("0"), std::runtime_error);
+	EXPECT_THROW(rules.IsTerminal("9"), std::runtime_error);
+}
+
 TEST(ProductionRulesTests, MultipleLettersFIRST)
 {
 	EXPECT_TRUE(false); // implement
