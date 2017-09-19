@@ -1,27 +1,49 @@
 #include "ParserTools.h"
 #include "ProductionRule.h"
 
+#include <unordered_map>
+
 namespace slrparser
 {
 	// null : '#' which represents 'epsilon'
 	std::vector<std::string> ParserTools::Compute_FIRST(ProductionRules & rules)
 	{
 		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]
-		std::vector<std::string> firsts;
+		std::unordered_map<std::string, std::vector<char>> firsts;
 
-		// Initialise FIRST(A), where A is non-terminal symbol
 		for (auto rule : rules.AllRules())
 		{
-			// TODO:
+			if (!rule.IsValid())
+				continue;
+
+			for (auto vt : rule.Rhs())
+			{
+				if (vt.size() >= 2 && rules.IsTerminal(vt[0]))
+				{
+					// TODO: 'add' to existing vector list rather than replacing it
+					firsts.emplace(rule.Vn(), std::vector<char>{vt[0]});
+					rule.Invalidate();
+				}
+				else if (vt.size() == 1 && rules.IsEpsilon(vt[0]))
+				{
+					// TODO: 'add' to existing vector list rather than replacing it
+					firsts.emplace(rule.Vn(), std::vector<char>{vt[0]});
+					rule.Invalidate();
+				}
+			}
 		}
 
-		// Compute FIRST(A) from production rules where the first symbol of rhs is terminal
-		for (auto & first : firsts)
+		// TODO: while (modified) { ...
+		for (auto rule : rules.AllRules())
 		{
-			// TODO:
-		}
+			if (!rule.IsValid())
+				continue;
 
-		// TODO:
+			for (auto v : rule.Rhs())
+			{
+
+			}
+		}
 
 		return {};
 	}

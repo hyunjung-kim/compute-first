@@ -7,6 +7,71 @@
 
 namespace slrparser
 {
+	class NEW_ProductionRule
+	{
+	public:
+		NEW_ProductionRule(char vn, std::string & rhs)
+			: vn_(vn), rhs_(rhs), valid_(true)
+		{}
+
+		char Vn()
+		{
+			return vn_;
+		}
+
+		std::string Rhs()
+		{
+			return rhs_;
+		}
+
+		bool IsValid()
+		{
+			return valid_;
+		}
+
+		void Invalidate()
+		{
+			valid_ = false;
+		}
+
+	private:
+		char vn_;
+		std::string rhs_;
+		bool valid_ = false;
+	};
+
+	class NEW_ProductionRules
+	{
+	public:
+		explicit NEW_ProductionRules() 
+		{}
+
+		void AddRule(NEW_ProductionRule & rule)
+		{
+			rules_.push_back(rule);
+		}
+
+		std::vector<NEW_ProductionRule> GetRules(char vn)
+		{
+			std::vector<NEW_ProductionRule> matchedRules;
+			for (auto & rule : rules_)
+			{
+				// TODO: implement
+			}
+			return std::move(matchedRules);
+		}
+
+		std::vector<NEW_ProductionRule> AllRules()
+		{
+			return std::move(rules_);
+		}
+
+	private:
+		std::vector<NEW_ProductionRule> rules_;
+	};
+
+
+
 	class ProductionRule
 	{
 	public:
@@ -22,14 +87,19 @@ namespace slrparser
 			return vn_;
 		}
 
-		std::vector<std::string> Vt()
+		std::vector<std::string> Rhs()
 		{
 			return rhs_;
 		}
 
-		bool Valid()
+		bool IsValid()
 		{
 			return valid_;
+		}
+
+		void Invalidate()
+		{
+			valid_ = false;
 		}
 
 	private:
@@ -73,24 +143,7 @@ namespace slrparser
 		{
 			return productionRules_;
 		}
-
-		std::vector<std::string> FIRST(std::string v)
-		{
-			std::vector<std::string> ret;
-
-			// Step 1: if v is terminal then FIRST(v) = {v} if v belongs to terminal symbols
-			if (IsTerminal(v))
-			{
-				ret.push_back(v);
-				return ret;
-			}
-
-			// TODO: Step 2
-			// TODO: Step 3
-
-			return {};
-		}
-
+		
 		bool IsTerminal(std::string v)
 		{
 			if (v.size() != 1)
@@ -112,6 +165,40 @@ namespace slrparser
 			}
 		}
 
+		bool IsTerminal(char v)
+		{
+			if (v >= 97 && v <= 127) // a - z
+			{
+				return true;
+			}
+			else if (v >= 65 && v <= 90) // A - Z
+			{
+				return false;
+			}
+			else
+			{
+				throw std::runtime_error("Symbol must be a letter");
+			}
+		}
+
+		bool IsEpsilon(std::string v)
+		{
+			if (v.size() == 1 && v[0] == '#')
+			{
+				return true;
+			}
+			return false;
+		}
+
+		bool IsEpsilon(char v)
+		{
+			if (v == '#')
+			{
+				return true;
+			}
+			return false;
+		}
+
 		std::vector<std::string> RINGSUM(std::vector<std::string> lhs, std::vector<std::string> rhs)
 		{
 			// TODO: implement
@@ -128,7 +215,7 @@ namespace slrparser
 
 			if (ret != productionRules_.end())
 			{
-				return (*ret).Vt();
+				return (*ret).Rhs();
 			}
 			return std::vector<std::string> {};
 		}
