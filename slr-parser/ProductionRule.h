@@ -14,6 +14,12 @@ namespace slrparser
 			: vn_(vn), rhs_(rhs), valid_(true)
 		{}
 
+		// TODO: complete
+		// copy ctor
+		// assignment ctor
+		// move ctor
+		// dtor
+
 		char Vn()
 		{
 			return vn_;
@@ -24,7 +30,7 @@ namespace slrparser
 			return rhs_;
 		}
 
-		bool IsValid()
+		bool IsValid() const
 		{
 			return valid_;
 		}
@@ -46,7 +52,7 @@ namespace slrparser
 		explicit NEW_ProductionRules() 
 		{}
 
-		void AddRule(NEW_ProductionRule & rule)
+		void Add(NEW_ProductionRule & rule)
 		{
 			rules_.push_back(rule);
 		}
@@ -59,6 +65,11 @@ namespace slrparser
 				// TODO: implement
 			}
 			return std::move(matchedRules);
+		}
+
+		size_t Count()
+		{
+			return rules_.size();
 		}
 
 		std::vector<NEW_ProductionRule> AllRules()

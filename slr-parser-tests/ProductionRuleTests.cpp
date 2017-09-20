@@ -1,23 +1,32 @@
 #include "gmock\gmock.h"
 #include "..\slr-parser\ProductionRule.h"
 
+using namespace ::testing;
+
 TEST(ProductionRulesTests, CanCreate)
 {
-	slrparser::ProductionRule rule1(std::string("A"), std::vector<std::string>{"aB", "B"});
-	slrparser::ProductionRule rule2(std::string("B"), std::vector<std::string>{"bC", "C"});
-	slrparser::ProductionRule rule3(std::string("C"), std::vector<std::string>{"c"});
+	slrparser::NEW_ProductionRule rule1('A', std::string("aB"));
+	slrparser::NEW_ProductionRule rule2('A', std::string("B"));
+	slrparser::NEW_ProductionRule rule3('B', std::string("bC"));
+	slrparser::NEW_ProductionRule rule4('B', std::string("C"));
+	slrparser::NEW_ProductionRule rule5('C', std::string("c"));
 
-	slrparser::ProductionRules rules;
+	slrparser::NEW_ProductionRules rules;
 	rules.Add(rule1);
 	rules.Add(rule2);
 	rules.Add(rule3);
+	rules.Add(rule4);
+	rules.Add(rule5);	
 
-	EXPECT_EQ(rules.RuleCount(), 3);
-	EXPECT_EQ(rules.Vn("A")[0], "aB");
-	EXPECT_EQ(rules.Vn("A")[1], "B");
-	EXPECT_EQ(rules.Vn("B")[0], "bC");
-	EXPECT_EQ(rules.Vn("B")[1], "C");
-	EXPECT_EQ(rules.Vn("C")[0], "c");
+	EXPECT_EQ(rules.Count(), 5);
+	
+	auto rulesA = rules.GetRules('A');
+	auto rulesB = rules.GetRules('B');
+	auto rulesC = rules.GetRules('C');
+	
+	// TODO:
+	
+	
 }
 
 //TEST(ProductionRulesTests, SingleLetterFIRST)
