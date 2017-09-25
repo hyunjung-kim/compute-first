@@ -145,13 +145,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ParserTools.cpp" />
-    <ClCompile Include="ProductionRule.cpp" />
-    <ClCompile Include="SlrParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ParserTools.h" />
     <ClInclude Include="ProductionRule.h" />
-    <ClInclude Include="SlrParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

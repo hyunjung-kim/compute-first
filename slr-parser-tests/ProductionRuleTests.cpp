@@ -2,30 +2,38 @@
 #include "..\slr-parser\ProductionRule.h"
 
 using namespace ::testing;
+using namespace slrparser;
+
+// TODO: make this as an utility func
+std::vector<ProductionRule> GetRules(std::vector<ProductionRule> & rules, char vn)
+{
+	// TODO: implement
+	return {};
+}
 
 TEST(ProductionRulesTests, CanCreate)
 {
-	slrparser::NEW_ProductionRule rule1('A', std::string("aB"));
-	slrparser::NEW_ProductionRule rule2('A', std::string("B"));
-	slrparser::NEW_ProductionRule rule3('B', std::string("bC"));
-	slrparser::NEW_ProductionRule rule4('B', std::string("C"));
-	slrparser::NEW_ProductionRule rule5('C', std::string("c"));
+	ProductionRule rule1('A', std::string("aB"));
+	ProductionRule rule2('A', std::string("B"));
+	ProductionRule rule3('B', std::string("bC"));
+	ProductionRule rule4('B', std::string("C"));
+	ProductionRule rule5('C', std::string("c"));
 
-	slrparser::NEW_ProductionRules rules;
-	rules.Add(rule1);
-	rules.Add(rule2);
-	rules.Add(rule3);
-	rules.Add(rule4);
-	rules.Add(rule5);	
+	std::vector<ProductionRule> rules;
+	rules.push_back(rule1);
+	rules.push_back(rule2);
+	rules.push_back(rule3);
+	rules.push_back(rule4);
+	rules.push_back(rule5);	
 
-	EXPECT_EQ(rules.Count(), 5);
+	auto rulesA = GetRules(rules, 'A');
+	auto rulesB = GetRules(rules, 'B');
+	auto rulesC = GetRules(rules, 'C');
 	
-	auto rulesA = rules.GetRules('A');
-	auto rulesB = rules.GetRules('B');
-	auto rulesC = rules.GetRules('C');
-	
-	// TODO:
-	
+	EXPECT_EQ(rulesA.size(), 2);
+	EXPECT_EQ(rulesB.size(), 2);
+	EXPECT_EQ(rulesC.size(), 1);	
+		
 	
 }
 
@@ -47,7 +55,7 @@ TEST(ProductionRulesTests, CanCreate)
 
 TEST(ProductionRulesTests, SimpleRingSum)
 {
-	slrparser::ProductionRules rules;
+	slrparser::Obsolte_ProductionRules rules;
 
 	ASSERT_THAT(rules.RINGSUM({ "a", "b", "c" }, { "c", "d" }), ::testing::ContainerEq(std::vector<std::string>({ "a", "b", "c" })));
 	ASSERT_THAT(rules.RINGSUM({ "a", "b", "c", "#" }, { "c", "d" }), ::testing::ContainerEq(std::vector<std::string>({ "a", "b", "c", "d" })));
@@ -56,7 +64,7 @@ TEST(ProductionRulesTests, SimpleRingSum)
 
 TEST(ProductionRulesTests, IsTerminalReturnsCorrectly)
 {
-	slrparser::ProductionRules rules;
+	slrparser::Obsolte_ProductionRules rules;
 
 	for (int i = 'a'; i <= 'z'; ++i)
 	{
@@ -77,7 +85,7 @@ TEST(ProductionRulesTests, IsTerminalReturnsCorrectly)
 
 TEST(ProductionRulesTests, IsEpsilonReturnsCorrectly)
 {
-	slrparser::ProductionRules rules;
+	slrparser::Obsolte_ProductionRules rules;
 
 	EXPECT_TRUE(rules.IsEpsilon("#"));
 	

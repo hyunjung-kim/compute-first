@@ -7,6 +7,8 @@ Project: FIRST
 - Complete NEW_ProductionRules with tests
 - Review
 
+// null : '#' which represents 'epsilon'
+
 2. Remove old rule and rules. Also clean up tests.
 
 3. Implement Compute_FIRST. Add lots of tests and verify the algorithm

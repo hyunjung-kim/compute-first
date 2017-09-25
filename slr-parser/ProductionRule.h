@@ -7,10 +7,10 @@
 
 namespace slrparser
 {
-	class NEW_ProductionRule
+	class ProductionRule
 	{
 	public:
-		NEW_ProductionRule(char vn, std::string & rhs)
+		ProductionRule(char vn, std::string & rhs)
 			: vn_(vn), rhs_(rhs), valid_(true)
 		{}
 
@@ -46,47 +46,10 @@ namespace slrparser
 		bool valid_ = false;
 	};
 
-	class NEW_ProductionRules
+	class Obsolte_ProductionRule
 	{
 	public:
-		explicit NEW_ProductionRules() 
-		{}
-
-		void Add(NEW_ProductionRule & rule)
-		{
-			rules_.push_back(rule);
-		}
-
-		std::vector<NEW_ProductionRule> GetRules(char vn)
-		{
-			std::vector<NEW_ProductionRule> matchedRules;
-			for (auto & rule : rules_)
-			{
-				// TODO: implement
-			}
-			return std::move(matchedRules);
-		}
-
-		size_t Count()
-		{
-			return rules_.size();
-		}
-
-		std::vector<NEW_ProductionRule> AllRules()
-		{
-			return std::move(rules_);
-		}
-
-	private:
-		std::vector<NEW_ProductionRule> rules_;
-	};
-
-
-
-	class ProductionRule
-	{
-	public:
-		ProductionRule(std::string & vn, std::vector<std::string> vt)
+		Obsolte_ProductionRule(std::string & vn, std::vector<std::string> vt)
 			:
 			vn_(vn),
 			rhs_(std::move(vt)),
@@ -122,13 +85,13 @@ namespace slrparser
 		bool valid_ = false;
 	};
 
-	class ProductionRules
+	class Obsolte_ProductionRules
 	{
 	public:
-		ProductionRules() {}
+		Obsolte_ProductionRules() {}
 
-		ProductionRules(const ProductionRules &) = delete;
-		ProductionRules & operator=(const ProductionRules &) = delete;
+		Obsolte_ProductionRules(const Obsolte_ProductionRules &) = delete;
+		Obsolte_ProductionRules & operator=(const Obsolte_ProductionRules &) = delete;
 
 		size_t RuleCount()
 		{
@@ -145,12 +108,12 @@ namespace slrparser
 			return findRuleImpl(vn);
 		}
 
-		void Add(ProductionRule & rule)
+		void Add(Obsolte_ProductionRule & rule)
 		{
 			productionRules_.push_back(rule);
 		}
 
-		std::vector<ProductionRule> AllRules()
+		std::vector<Obsolte_ProductionRule> AllRules()
 		{
 			return productionRules_;
 		}
@@ -219,7 +182,7 @@ namespace slrparser
 	private:
 		std::vector<std::string> findRuleImpl(const std::string & vn)
 		{
-			auto ret = std::find_if(productionRules_.begin(), productionRules_.end(), [&vn](ProductionRule rule)
+			auto ret = std::find_if(productionRules_.begin(), productionRules_.end(), [&vn](Obsolte_ProductionRule rule)
 			{
 				return vn == rule.Vn();
 			});
@@ -232,7 +195,7 @@ namespace slrparser
 		}
 
 	private:
-		std::vector<ProductionRule> productionRules_;
+		std::vector<Obsolte_ProductionRule> productionRules_;
 	};
 }
 
