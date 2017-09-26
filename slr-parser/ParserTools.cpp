@@ -2,6 +2,7 @@
 #include "ProductionRule.h"
 
 #include <unordered_map>
+#include <set>
 
 namespace slrparser
 {
@@ -48,7 +49,7 @@ namespace slrparser
 	}
 
 	// null : '#' which represents 'epsilon'
-	std::vector<std::string> ParserTools::Compute_FIRST(std::vector<ProductionRule>& rules)
+	std::unordered_map<char, std::vector<char>> ParserTools::Compute_FIRST(std::vector<ProductionRule> & rules)
 	{
 		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]
 		// step 1
@@ -73,7 +74,6 @@ namespace slrparser
 			std::vector<char> tmpFirsts = {};
 			if (rule.Rhs().size() >= 2 && IsTerminal(rule.Rhs()[0]))
 			{
-				// retrieve the existing 'first(s)' if any				
 				if (firsts.count(rule.Vn()) > 0)
 				{
 					tmpFirsts = firsts[rule.Vn()];
@@ -99,18 +99,74 @@ namespace slrparser
 			}
 		}
 
-		// step 3
-		// TODO: while (modified) { ...
-		for (auto & rule : rules)
+		// step 3 (WIP)
+		bool modified = false;
+		do
 		{
-			if (!rule.IsValid())
-				continue;
-
-			for (auto v : rule.Rhs())
+			modified = false;
+			for (auto & rule : rules)
 			{
+				if (!rule.IsValid())
+					continue;
 
+				size_t existingFirstCnt = 0;
+				std::vector<char> existingFirst = {};
+				if (firsts.count(rule.Vn()) > 0)
+				{
+					existingFirst = firsts[rule.Vn()];
+					existingFirstCnt = existingFirst.size();
+				}
+
+				std::vector<char> ringSum = {};
+				if (firsts.count(rule.Rhs()[0]) > 0)
+				{
+					ringSum = firsts[rule.Rhs()[0]];
+				}
+
+				for (int i = 1; i < rule.Rhs().size(); ++i)
+				{
+					std::vector<char> currFirsts = {};
+					if (firsts.count(rule.Rhs()[i]) > 0)
+					{
+						currFirsts = firsts[rule.Rhs()[i]];
+					}
+					// TODO: implement
+					ringSum = RingSum(ringSum, currFirsts);
+				}
+
+				// TODO: update existing 'firsts' for the current Vn
+				std::set<char> updatedFirsts;
+				for (auto i : ringSum)
+				{
+					updatedFirsts.insert(i);
+				}
+				for (auto i : existingFirst)
+				{
+					updatedFirsts.insert(i);
+				}
+				existingFirst.clear();
+				for (auto i : updatedFirsts)
+				{
+					existingFirst.push_back(i);
+				}
+
+				if (existingFirstCnt != existingFirst.size())
+				{
+					modified = true;
+				}
+				else
+				{
+					modified = false;
+				}
 			}
-		}
+		} while (modified);
+
+		return firsts;
+	}
+
+	// TODO: start from here
+	std::vector<char> ParserTools::RingSum(std::vector<char> & lhs, std::vector<char> & rhs)
+	{
 		return {};
 	}
 }

@@ -31,6 +31,7 @@ TEST(ParserToolsTests, Compute_FIRST)
 	rules.push_back(rule2);
 	rules.push_back(rule3);
 	rules.push_back(rule4);
+	rules.push_back(rule5);
 	rules.push_back(rule6);
 
 	ParserTools tools;

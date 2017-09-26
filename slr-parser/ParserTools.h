@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 namespace slrparser
 {
@@ -13,7 +14,7 @@ namespace slrparser
 	{
 	public:
 		std::vector<std::string> Obsolte_Compute_FIRST(Obsolte_ProductionRules & rules);
-		std::vector<std::string> Compute_FIRST(std::vector<ProductionRule> & rules);
+		std::unordered_map<char, std::vector<char>> Compute_FIRST(std::vector<ProductionRule> & rules);
 
 	private:
 		bool IsEpsilon(char v)
@@ -36,5 +37,7 @@ namespace slrparser
 				throw std::runtime_error("Symbol must be a letter");
 			}
 		}
+
+		std::vector<char> RingSum(std::vector<char> & lhs, std::vector<char> & rhs);
 	};
 }
