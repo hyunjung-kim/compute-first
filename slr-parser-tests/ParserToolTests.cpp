@@ -4,21 +4,30 @@
 #include "..\slr-parser\ParserTools.h"
 
 using namespace slrparser;
+using namespace ::testing;
+
+TEST(ParserToolsTests, RingSum)
+{
+	ParserTools tools;
+	
+	std::vector<char> lhs1 = { 'a', 'b', 'c' };
+	std::vector<char> rhs1 = { 'c', 'd'};
+	auto ringSum1 = tools.RingSum(lhs1, rhs1);
+	ASSERT_THAT(ringSum1, ContainerEq(std::vector<char>{'a', 'b', 'c'}));
+
+	std::vector<char> lhs2 = { 'a', 'b', 'c', '#' };
+	std::vector<char> rhs2 = { 'c', 'd' };
+	auto ringSum2 = tools.RingSum(lhs2, rhs2);
+	ASSERT_THAT(ringSum2, ContainerEq(std::vector<char>{'a', 'b', 'c', 'd'}));
+
+	std::vector<char> lhs3 = { 'a', 'b', '#' };
+	std::vector<char> rhs3 = { 'c', 'd', '#' };
+	auto ringSum3 = tools.RingSum(lhs3, rhs3);
+	ASSERT_THAT(ringSum3, ContainerEq(std::vector<char>{'#', 'a', 'b', 'c', 'd'}));
+}
 
 TEST(ParserToolsTests, Compute_FIRST)
 {
-	//slrparser::Obsolte_ProductionRule rule1(std::string("S"), std::vector<std::string>{"ABe"});
-	//slrparser::Obsolte_ProductionRule rule2(std::string("A"), std::vector<std::string>{"dB", "aS", "c"});
-	//slrparser::Obsolte_ProductionRule rule3(std::string("B"), std::vector<std::string>{"AS", "b"});
-
-	//slrparser::Obsolte_ProductionRules rules;
-	//rules.Add(rule1);
-	//rules.Add(rule2);
-	//rules.Add(rule3);
-
-	//slrparser::ParserTools tools;
-	//tools.Obsolte_Compute_FIRST(rules);
-
 	ProductionRule rule1('S', std::string("ABe"));
 	ProductionRule rule2('A', std::string("dB"));
 	ProductionRule rule3('A', std::string("aS"));

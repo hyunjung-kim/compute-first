@@ -130,7 +130,6 @@ namespace slrparser
 					{
 						currFirsts = firsts[rule.Rhs()[i]];
 					}
-					// TODO: implement
 					ringSum = RingSum(ringSum, currFirsts);
 				}
 
@@ -164,10 +163,44 @@ namespace slrparser
 		return firsts;
 	}
 
-	// TODO: start from here
 	std::vector<char> ParserTools::RingSum(std::vector<char> & lhs, std::vector<char> & rhs)
 	{
-		return {};
+		std::vector<char> ringSum;
+
+		auto ret = std::find(lhs.begin(), lhs.end(), '#');
+		if (ret != lhs.end())
+		{
+			lhs.erase(std::remove(lhs.begin(), lhs.end(), '#'), lhs.end());
+			ringSum = Union(lhs, rhs);
+		}
+		else
+		{
+			ringSum = lhs;
+		}
+
+		return std::move(ringSum);
+	}
+
+	std::vector<char> ParserTools::Union(std::vector<char> & lhs, std::vector<char> & rhs)
+	{
+		std::set<char> tmpSet;
+		for (auto i : lhs)
+		{
+			tmpSet.insert(i);
+		}
+
+		for (auto i : rhs)
+		{
+			tmpSet.insert(i);
+		}
+
+		std::vector<char> unionSum;
+		for (auto i : tmpSet)
+		{
+			unionSum.push_back(i);
+		}
+
+		return unionSum;
 	}
 }
 

@@ -15,8 +15,9 @@ namespace slrparser
 	public:
 		std::vector<std::string> Obsolte_Compute_FIRST(Obsolte_ProductionRules & rules);
 		std::unordered_map<char, std::vector<char>> Compute_FIRST(std::vector<ProductionRule> & rules);
+		std::vector<char> RingSum(std::vector<char> & lhs, std::vector<char> & rhs);
+		std::vector<char> Union(std::vector<char> & lhs, std::vector<char> & rhs);
 
-	private:
 		bool IsEpsilon(char v)
 		{
 			return v == '#';
@@ -38,6 +39,6 @@ namespace slrparser
 			}
 		}
 
-		std::vector<char> RingSum(std::vector<char> & lhs, std::vector<char> & rhs);
+		
 	};
 }
