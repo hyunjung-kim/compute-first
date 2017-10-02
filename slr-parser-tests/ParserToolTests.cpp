@@ -26,7 +26,30 @@ TEST(ParserToolsTests, RingSum)
 	ASSERT_THAT(ringSum3, ContainerEq(std::vector<char>{'#', 'a', 'b', 'c', 'd'}));
 }
 
-TEST(ParserToolsTests, Compute_FIRST)
+TEST(ParserToolsTests, Compute_FIRST_Ex1)
+{
+	ProductionRule rule1('A', std::string("aB"));
+	ProductionRule rule2('A', std::string("B"));
+	ProductionRule rule3('B', std::string("bC"));
+	ProductionRule rule4('B', std::string("C"));
+	ProductionRule rule5('C', std::string("c"));
+
+	std::vector<ProductionRule> rules;
+	rules.push_back(rule1);
+	rules.push_back(rule2);
+	rules.push_back(rule3);
+	rules.push_back(rule4);
+	rules.push_back(rule5);
+	
+	ParserTools tools;
+	auto ret = tools.Compute_FIRST(rules);
+
+	ASSERT_THAT(ret['A'], ContainerEq(std::vector<char>{'a', 'b', 'c'}));
+	ASSERT_THAT(ret['B'], ContainerEq(std::vector<char>{'b', 'c'}));
+	ASSERT_THAT(ret['C'], ContainerEq(std::vector<char>{'c'}));
+}
+
+TEST(ParserToolsTests, Compute_FIRST_Ex2)
 {
 	ProductionRule rule1('S', std::string("ABe"));
 	ProductionRule rule2('A', std::string("dB"));
@@ -44,9 +67,9 @@ TEST(ParserToolsTests, Compute_FIRST)
 	rules.push_back(rule6);
 
 	ParserTools tools;
-	tools.Compute_FIRST(rules);
-
+	auto ret = tools.Compute_FIRST(rules);
 	
-
-	EXPECT_FALSE(true);
+	ASSERT_THAT(ret['S'], ContainerEq(std::vector<char>{'a', 'c', 'd'}));
+	ASSERT_THAT(ret['A'], ContainerEq(std::vector<char>{'c', 'd', 'a'}));
+	ASSERT_THAT(ret['B'], ContainerEq(std::vector<char>{'a', 'b', 'c', 'd'}));
 }

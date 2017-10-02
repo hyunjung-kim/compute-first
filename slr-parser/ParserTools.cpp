@@ -7,48 +7,6 @@
 namespace slrparser
 {
 	// null : '#' which represents 'epsilon'
-	std::vector<std::string> ParserTools::Obsolte_Compute_FIRST(Obsolte_ProductionRules & rules)
-	{
-		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]
-		std::unordered_map<std::string, std::vector<char>> firsts;
-
-		for (auto rule : rules.AllRules())
-		{
-			if (!rule.IsValid())
-				continue;
-
-			for (auto vt : rule.Rhs())
-			{
-				if (vt.size() >= 2 && rules.IsTerminal(vt[0]))
-				{
-					// TODO: 'add' to existing vector list rather than replacing it
-					firsts.emplace(rule.Vn(), std::vector<char>{vt[0]});
-					rule.Invalidate();
-				}
-				else if (vt.size() == 1 && rules.IsEpsilon(vt[0]))
-				{
-					// TODO: 'add' to existing vector list rather than replacing it
-					firsts.emplace(rule.Vn(), std::vector<char>{vt[0]});
-					rule.Invalidate();
-				}
-			}
-		}
-
-		// TODO: while (modified) { ...
-		for (auto rule : rules.AllRules())
-		{
-			if (!rule.IsValid())
-				continue;
-
-			for (auto v : rule.Rhs())
-			{
-
-			}
-		}
-		return {};
-	}
-
-	// null : '#' which represents 'epsilon'
 	std::unordered_map<char, std::vector<char>> ParserTools::Compute_FIRST(std::vector<ProductionRule> & rules)
 	{
 		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]
@@ -99,7 +57,7 @@ namespace slrparser
 			}
 		}
 
-		// step 3 (WIP)
+		// step 3
 		bool modified = false;
 		do
 		{
@@ -130,6 +88,11 @@ namespace slrparser
 					{
 						currFirsts = firsts[rule.Rhs()[i]];
 					}
+					else if (IsTerminal(rule.Rhs()[i]))
+					{
+						currFirsts = std::vector<char>{ rule.Rhs()[i] };
+					}
+					
 					ringSum = RingSum(ringSum, currFirsts);
 				}
 
@@ -143,6 +106,7 @@ namespace slrparser
 				{
 					updatedFirsts.insert(i);
 				}
+
 				existingFirst.clear();
 				for (auto i : updatedFirsts)
 				{
@@ -151,10 +115,12 @@ namespace slrparser
 
 				if (existingFirstCnt != existingFirst.size())
 				{
+					firsts[rule.Vn()] = existingFirst;
 					modified = true;
 				}
 				else
 				{
+					rule.Invalidate();
 					modified = false;
 				}
 			}
