@@ -23,8 +23,5 @@
     <ClInclude Include="ParserTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProductionRule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

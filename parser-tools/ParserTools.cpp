@@ -1,36 +1,56 @@
 #include "ParserTools.h"
-#include "ProductionRule.h"
 
 #include <unordered_map>
+#include <algorithm>
 #include <set>
 
-namespace slrparser
+namespace parsertools
 {
+	char ProductionRule::Vn() const
+	{
+		return vn_;
+	}
+
+	std::string ProductionRule::Rhs()
+	{
+		return rhs_;
+	}
+
+	bool ProductionRule::IsValid() const
+	{
+		return valid_;
+	}
+
+	void ProductionRule::Invalidate()
+	{
+		valid_ = false;
+	}
+
 	// null : '#' which represents 'epsilon'
 	std::unordered_map<char, std::vector<char>> ParserTools::Compute_FIRST(std::vector<ProductionRule> & rules)
 	{
-		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]
-		// step 1
+		// Step 1: initialize FIRSTs
+		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]		
 		std::unordered_map<char, std::vector<char>> firsts;
 
-		// step 1-1
+		// Step 1-1: handle single terminal symbol rule
 		for (auto & rule : rules)
 		{
-			if (rule.Rhs().size() == 1 && IsTerminal(rule.Rhs()[0]))
+			if (rule.Rhs().size() == 1 && IsTerminalSymbol(rule.Rhs()[0]))
 			{
 				firsts.insert({ rule.Vn(), std::vector<char>{rule.Rhs()[0]} });
 				rule.Invalidate();
 			}
 		}
 
-		// step 2 (okay - TODO: unit tests)
+		// Step 2: handle Vn -> aX where a is a terminal symbol
 		for (auto & rule : rules)
 		{
 			if (!rule.IsValid())
 				continue;
 
 			std::vector<char> tmpFirsts = {};
-			if (rule.Rhs().size() >= 2 && IsTerminal(rule.Rhs()[0]))
+			if (rule.Rhs().size() >= 2 && IsTerminalSymbol(rule.Rhs()[0]))
 			{
 				if (firsts.count(rule.Vn()) > 0)
 				{
@@ -57,11 +77,10 @@ namespace slrparser
 			}
 		}
 
-		// step 3
+		// Step 3: handle all remaining rules (TODO: fix)
 		bool modified = false;
 		do
 		{
-			modified = false;
 			for (auto & rule : rules)
 			{
 				if (!rule.IsValid())
@@ -88,7 +107,7 @@ namespace slrparser
 					{
 						currFirsts = firsts[rule.Rhs()[i]];
 					}
-					else if (IsTerminal(rule.Rhs()[i]))
+					else if (IsTerminalSymbol(rule.Rhs()[i]))
 					{
 						currFirsts = std::vector<char>{ rule.Rhs()[i] };
 					}
@@ -96,7 +115,6 @@ namespace slrparser
 					ringSum = RingSum(ringSum, currFirsts);
 				}
 
-				// TODO: update existing 'firsts' for the current Vn
 				std::set<char> updatedFirsts;
 				for (auto i : ringSum)
 				{
@@ -113,7 +131,7 @@ namespace slrparser
 					existingFirst.push_back(i);
 				}
 
-				if (existingFirstCnt != existingFirst.size())
+				if (existingFirstCnt != updatedFirsts.size())
 				{
 					firsts[rule.Vn()] = existingFirst;
 					modified = true;
@@ -149,24 +167,34 @@ namespace slrparser
 
 	std::vector<char> ParserTools::Union(std::vector<char> & lhs, std::vector<char> & rhs)
 	{
-		std::set<char> tmpSet;
-		for (auto i : lhs)
-		{
-			tmpSet.insert(i);
-		}
-
-		for (auto i : rhs)
-		{
-			tmpSet.insert(i);
-		}
-
 		std::vector<char> unionSum;
-		for (auto i : tmpSet)
-		{
-			unionSum.push_back(i);
-		}
+
+		std::sort(lhs.begin(), lhs.end());
+		std::sort(rhs.begin(), rhs.end());
+		std::set_union(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::back_inserter(unionSum));
 
 		return unionSum;
+	}
+
+	bool ParserTools::IsEpsilon(char v)
+	{
+		return v == '#';
+	}
+
+	bool ParserTools::IsTerminalSymbol(char v)
+	{
+		if (v >= 97 && v <= 127) // a - z
+		{
+			return true;
+		}
+		else if (v >= 65 && v <= 90) // A - Z
+		{
+			return false;
+		}
+		else
+		{
+			throw std::runtime_error("Symbol must be a letter");
+		}
 	}
 }
 

@@ -18,10 +18,7 @@
     <ClCompile Include="ParserToolTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProductionRuleTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RunSLRParserTests.cpp">
+    <ClCompile Include="RunAllTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
