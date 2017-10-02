@@ -9,28 +9,28 @@ namespace slrparser
 	// null : '#' which represents 'epsilon'
 	std::unordered_map<char, std::vector<char>> ParserTools::Compute_FIRST(std::vector<ProductionRule> & rules)
 	{
-		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]
-		// step 1
+		// Step 1: initialize FIRSTs
+		// e.g.) {A -> aA | B | C}  =>  A: [aA, B, C]		
 		std::unordered_map<char, std::vector<char>> firsts;
 
-		// step 1-1
+		// Step 1-1: handle single terminal symbol rule
 		for (auto & rule : rules)
 		{
-			if (rule.Rhs().size() == 1 && IsTerminal(rule.Rhs()[0]))
+			if (rule.Rhs().size() == 1 && IsTerminalSymbol(rule.Rhs()[0]))
 			{
 				firsts.insert({ rule.Vn(), std::vector<char>{rule.Rhs()[0]} });
 				rule.Invalidate();
 			}
 		}
 
-		// step 2 (okay - TODO: unit tests)
+		// Step 2: handle Vn -> aX where a is a terminal symbol
 		for (auto & rule : rules)
 		{
 			if (!rule.IsValid())
 				continue;
 
 			std::vector<char> tmpFirsts = {};
-			if (rule.Rhs().size() >= 2 && IsTerminal(rule.Rhs()[0]))
+			if (rule.Rhs().size() >= 2 && IsTerminalSymbol(rule.Rhs()[0]))
 			{
 				if (firsts.count(rule.Vn()) > 0)
 				{
@@ -57,7 +57,7 @@ namespace slrparser
 			}
 		}
 
-		// step 3
+		// Step 3: handle all remaining rules
 		bool modified = false;
 		do
 		{
@@ -67,12 +67,10 @@ namespace slrparser
 				if (!rule.IsValid())
 					continue;
 
-				size_t existingFirstCnt = 0;
 				std::vector<char> existingFirst = {};
 				if (firsts.count(rule.Vn()) > 0)
 				{
 					existingFirst = firsts[rule.Vn()];
-					existingFirstCnt = existingFirst.size();
 				}
 
 				std::vector<char> ringSum = {};
@@ -88,7 +86,7 @@ namespace slrparser
 					{
 						currFirsts = firsts[rule.Rhs()[i]];
 					}
-					else if (IsTerminal(rule.Rhs()[i]))
+					else if (IsTerminalSymbol(rule.Rhs()[i]))
 					{
 						currFirsts = std::vector<char>{ rule.Rhs()[i] };
 					}
@@ -96,7 +94,6 @@ namespace slrparser
 					ringSum = RingSum(ringSum, currFirsts);
 				}
 
-				// TODO: update existing 'firsts' for the current Vn
 				std::set<char> updatedFirsts;
 				for (auto i : ringSum)
 				{
@@ -113,7 +110,7 @@ namespace slrparser
 					existingFirst.push_back(i);
 				}
 
-				if (existingFirstCnt != existingFirst.size())
+				if (updatedFirsts.size() != existingFirst.size())
 				{
 					firsts[rule.Vn()] = existingFirst;
 					modified = true;

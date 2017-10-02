@@ -6,14 +6,11 @@
 
 namespace slrparser
 {
-	class ProductionRule_deprecated;
-	class Obsolte_ProductionRules;
 	class ProductionRule;
 
 	class ParserTools
 	{
 	public:
-		std::vector<std::string> Obsolte_Compute_FIRST(Obsolte_ProductionRules & rules);
 		std::unordered_map<char, std::vector<char>> Compute_FIRST(std::vector<ProductionRule> & rules);
 		std::vector<char> RingSum(std::vector<char> & lhs, std::vector<char> & rhs);
 		std::vector<char> Union(std::vector<char> & lhs, std::vector<char> & rhs);
@@ -23,7 +20,7 @@ namespace slrparser
 			return v == '#';
 		}
 
-		bool IsTerminal(char v)
+		bool IsTerminalSymbol(char v)
 		{
 			if (v >= 97 && v <= 127) // a - z
 			{
@@ -37,8 +34,6 @@ namespace slrparser
 			{
 				throw std::runtime_error("Symbol must be a letter");
 			}
-		}
-
-		
+		}		
 	};
 }
