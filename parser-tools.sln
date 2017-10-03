@@ -3,9 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slr-parser", "slr-parser\slr-parser.vcxproj", "{AE304461-439A-40EB-95F6-BE1AE3628371}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parser-tools", "slr-parser\slr-parser.vcxproj", "{AE304461-439A-40EB-95F6-BE1AE3628371}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slr-parser-tests", "slr-parser-tests\slr-parser-tests.vcxproj", "{01383B83-D2DF-4808-9585-89737B37B146}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parser-tools-tests", "slr-parser-tests\slr-parser-tests.vcxproj", "{01383B83-D2DF-4808-9585-89737B37B146}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AE304461-439A-40EB-95F6-BE1AE3628371} = {AE304461-439A-40EB-95F6-BE1AE3628371}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F2ED7A6-54DD-475B-9795-DC4EBF45A4BA}"
 	ProjectSection(SolutionItems) = preProject

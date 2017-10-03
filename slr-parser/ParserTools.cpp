@@ -57,7 +57,7 @@ namespace slrparser
 			}
 		}
 
-		// Step 3: handle all remaining rules
+		// Step 3: handle all remaining rules (TODO: fix)
 		bool modified = false;
 		do
 		{
@@ -67,10 +67,12 @@ namespace slrparser
 				if (!rule.IsValid())
 					continue;
 
+				size_t existingFirstCnt = 0;
 				std::vector<char> existingFirst = {};
 				if (firsts.count(rule.Vn()) > 0)
 				{
 					existingFirst = firsts[rule.Vn()];
+					existingFirstCnt = existingFirst.size();
 				}
 
 				std::vector<char> ringSum = {};
@@ -110,7 +112,7 @@ namespace slrparser
 					existingFirst.push_back(i);
 				}
 
-				if (updatedFirsts.size() != existingFirst.size())
+				if (existingFirstCnt != updatedFirsts.size())
 				{
 					firsts[rule.Vn()] = existingFirst;
 					modified = true;
@@ -146,22 +148,11 @@ namespace slrparser
 
 	std::vector<char> ParserTools::Union(std::vector<char> & lhs, std::vector<char> & rhs)
 	{
-		std::set<char> tmpSet;
-		for (auto i : lhs)
-		{
-			tmpSet.insert(i);
-		}
-
-		for (auto i : rhs)
-		{
-			tmpSet.insert(i);
-		}
-
 		std::vector<char> unionSum;
-		for (auto i : tmpSet)
-		{
-			unionSum.push_back(i);
-		}
+
+		std::sort(lhs.begin(), lhs.end());
+		std::sort(rhs.begin(), rhs.end());
+		std::set_union(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::back_inserter(unionSum));
 
 		return unionSum;
 	}
