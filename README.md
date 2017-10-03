@@ -1,2 +1,2 @@
-# test-slr-parser
-Test SLR parser
+# slr-parser tools
+Compute_FIRST
