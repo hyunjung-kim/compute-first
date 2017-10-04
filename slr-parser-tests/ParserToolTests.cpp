@@ -1,9 +1,8 @@
 //#include "gtest\gtest.h"
 #include "gmock\gmock.h"
-#include "..\slr-parser\ProductionRule.h"
 #include "..\slr-parser\ParserTools.h"
 
-using namespace slrparser;
+using namespace parsertools;
 using namespace ::testing;
 
 TEST(ParserToolsTests, RingSum)

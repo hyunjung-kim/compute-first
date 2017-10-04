@@ -1,11 +1,31 @@
 #include "ParserTools.h"
-#include "ProductionRule.h"
 
 #include <unordered_map>
+#include <algorithm>
 #include <set>
 
-namespace slrparser
+namespace parsertools
 {
+	char ProductionRule::Vn() const
+	{
+		return vn_;
+	}
+
+	std::string ProductionRule::Rhs()
+	{
+		return rhs_;
+	}
+
+	bool ProductionRule::IsValid() const
+	{
+		return valid_;
+	}
+
+	void ProductionRule::Invalidate()
+	{
+		valid_ = false;
+	}
+
 	// null : '#' which represents 'epsilon'
 	std::unordered_map<char, std::vector<char>> ParserTools::Compute_FIRST(std::vector<ProductionRule> & rules)
 	{
@@ -61,7 +81,6 @@ namespace slrparser
 		bool modified = false;
 		do
 		{
-			modified = false;
 			for (auto & rule : rules)
 			{
 				if (!rule.IsValid())
@@ -155,6 +174,27 @@ namespace slrparser
 		std::set_union(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::back_inserter(unionSum));
 
 		return unionSum;
+	}
+
+	bool ParserTools::IsEpsilon(char v)
+	{
+		return v == '#';
+	}
+
+	bool ParserTools::IsTerminalSymbol(char v)
+	{
+		if (v >= 97 && v <= 127) // a - z
+		{
+			return true;
+		}
+		else if (v >= 65 && v <= 90) // A - Z
+		{
+			return false;
+		}
+		else
+		{
+			throw std::runtime_error("Symbol must be a letter");
+		}
 	}
 }
 

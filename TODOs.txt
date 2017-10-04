@@ -1,16 +1,4 @@
 ===================
-Project: FIRST
+Project: Compute_FIRST
 ===================
 
-1. Use correct data structure
-- Complete NEW_ProductionRule with tests (WIP)
-- Complete NEW_ProductionRules with tests
-- Review
-
-// null : '#' which represents 'epsilon'
-
-2. Remove old rule and rules. Also clean up tests.
-
-3. Implement Compute_FIRST. Add lots of tests and verify the algorithm
-
-4. Clean up & document with theories for following up projects

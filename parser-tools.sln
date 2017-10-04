@@ -11,9 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parser-tools-tests", "slr-p
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F2ED7A6-54DD-475B-9795-DC4EBF45A4BA}"
-	ProjectSection(SolutionItems) = preProject
-		TODOs.txt = TODOs.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
