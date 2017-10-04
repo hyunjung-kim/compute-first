@@ -72,3 +72,15 @@ TEST(ParserToolsTests, Compute_FIRST_Ex2)
 	ASSERT_THAT(ret['A'], ContainerEq(std::vector<char>{'c', 'd', 'a'}));
 	ASSERT_THAT(ret['B'], ContainerEq(std::vector<char>{'a', 'b', 'c', 'd'}));
 }
+
+TEST(ParserToolsTests, Compute_FIRST_SupportNonAlphabeticalSymbols)
+{
+	// TODO: implement
+	// Compute_FIRST() should support '(', ')' '+', '-', '/', '*'
+}
+
+TEST(ParserToolsTests, Compute_FIRST_SupportNonSingleTerminalSymbols)
+{
+	// TODO: implement
+	// Compute_FIRST() should support non single terminal symbols such as 'id'
+}
