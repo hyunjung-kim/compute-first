@@ -1,6 +1,6 @@
 //#include "gtest\gtest.h"
 #include "gmock\gmock.h"
-#include "..\slr-parser\ParserTools.h"
+#include "..\parser-tools\ParserTools.h"
 
 using namespace parsertools;
 using namespace ::testing;
