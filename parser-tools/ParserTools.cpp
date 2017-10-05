@@ -26,7 +26,6 @@ namespace parsertools
 		valid_ = false;
 	}
 
-	// null : '#' which represents 'epsilon'
 	std::unordered_map<char, std::vector<char>> ParserTools::Compute_FIRST(std::vector<ProductionRule> & rules)
 	{
 		// Step 1: initialize FIRSTs
@@ -77,7 +76,7 @@ namespace parsertools
 			}
 		}
 
-		// Step 3: handle all remaining rules (TODO: fix)
+		// Step 3: handle all remaining rules
 		bool modified = false;
 		do
 		{
